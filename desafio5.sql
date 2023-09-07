@@ -8,7 +8,7 @@ FROM
       id_song,
       `name` AS cancao
     FROM
-      SpotifyClone.`song`
+      SpotifyClone.`songs`
   ) AS s ON h.id_song = s.id_song
 GROUP BY
   h.id_song

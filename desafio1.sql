@@ -1,30 +1,46 @@
-DROP SCHEMA IF EXISTS `SpotifyClone`;CREATE DATABASE IF NOT EXISTS `SpotifyClone`;USE `SpotifyClone`;CREATE TABLE `plan`(
+DROP SCHEMA IF EXISTS `SpotifyClone`;
+
+CREATE DATABASE IF NOT EXISTS `SpotifyClone`;
+
+USE `SpotifyClone`;
+
+CREATE TABLE `plan`(
     `id_plan` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `type` VARCHAR(50) NOT NULL,
     `value` DECIMAL(3, 2) NOT NULL
-);CREATE TABLE `user`(
+);
+
+CREATE TABLE `user`(
     `id_user` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(100) NOT NULL,
     `age` INT NOT NULL,
     `signature_date` DATE NOT NULL,
     `id_plan` INT NOT NULL,
     FOREIGN KEY (`id_plan`) REFERENCES `SpotifyClone`.`plan` (`id_plan`)
-);CREATE TABLE `artist`(
+);
+
+CREATE TABLE `artist`(
     `id_artist` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(100) NOT NULL
-);CREATE TABLE `following_artist`(
+);
+
+CREATE TABLE `following_artist`(
     `id_user` INT NOT NULL,
     `id_artist` INT NOT NULL,
     PRIMARY KEY (`id_user`, `id_artist`),
     FOREIGN KEY (`id_user`) REFERENCES `SpotifyClone`.`user` (`id_user`),
     FOREIGN KEY (`id_artist`) REFERENCES `SpotifyClone`.`artist` (`id_artist`)
-);CREATE TABLE `album`(
+);
+
+CREATE TABLE `album`(
     `id_album` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(100) NOT NULL,
     `release_date` YEAR NOT NULL,
     `id_artist` INT NOT NULL,
     FOREIGN KEY (`id_artist`) REFERENCES `SpotifyClone`.`artist` (`id_artist`)
-);CREATE TABLE `song`(
+);
+
+CREATE TABLE `songs`(
     `id_song` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(100) NOT NULL,
     `duration_time` INT NOT NULL,
@@ -32,14 +48,17 @@ DROP SCHEMA IF EXISTS `SpotifyClone`;CREATE DATABASE IF NOT EXISTS `SpotifyClone
     `id_artist` INT NOT NULL,
     FOREIGN KEY (`id_album`) REFERENCES `SpotifyClone`.`album` (`id_album`),
     FOREIGN KEY (`id_artist`) REFERENCES `SpotifyClone`.`artist` (`id_artist`)
-);CREATE TABLE `history`(
+);
+
+CREATE TABLE `history`(
     `reproduction_date` DATETIME NOT NULL,
     `id_song` INT NOT NULL,
     `id_user` INT NOT NULL,
     PRIMARY KEY (`id_user`, `id_song`),
-    FOREIGN KEY (`id_song`) REFERENCES `SpotifyClone`.`song` (`id_song`),
+    FOREIGN KEY (`id_song`) REFERENCES `SpotifyClone`.`songs` (`id_song`),
     FOREIGN KEY (`id_user`) REFERENCES `SpotifyClone`.`user` (`id_user`)
 );
+
 INSERT INTO
     `SpotifyClone`.`plan` (`type`, `value`)
 VALUES
@@ -47,6 +66,7 @@ VALUES
     ('familiar', '7.99'),
     ('universitário', '5.99'),
     ('pessoal', '6.99');
+
 INSERT INTO
     `SpotifyClone`.`user` (`name`, `age`, `signature_date`, `id_plan`)
 VALUES
@@ -60,6 +80,7 @@ VALUES
     ('Christopher Alexander', 85, '2019-06-05', 4),
     ('Judith Butler', 45, '2020-05-13', 4),
     ('Jorge Amado', 58, '2017-02-17', 4);
+
 INSERT INTO
     `SpotifyClone`.`artist` (`name`)
 VALUES
@@ -69,6 +90,7 @@ VALUES
     ('Baco Exu do Blues'),
     ('Blind Guardian'),
     ('Nina Simone');
+
 INSERT INTO
     `SpotifyClone`.`following_artist` (`id_user`, `id_artist`)
 VALUES
@@ -86,6 +108,7 @@ VALUES
     (7, 6),
     (9, 3),
     (10, 2);
+
 INSERT INTO
     `SpotifyClone`.`album` (`name`, `release_date`, `id_artist`)
 VALUES
@@ -97,8 +120,9 @@ VALUES
     ('QVVJFA?', 2003, 4),
     ('Somewhere Far Beyond', 2007, 5),
     ('I Put A Spell On You', 2012, 6);
+
 INSERT INTO
-    `SpotifyClone`.`song` (`name`, `duration_time`, `id_album`, `id_artist`)
+    `SpotifyClone`.`songs` (`name`, `duration_time`, `id_album`, `id_artist`)
 VALUES
     ('BREAK MY SOUL', 279, 1, 1),
     ('VIRGO’S GROOVE', 369, 1, 1),
@@ -115,6 +139,7 @@ VALUES
     ('Samba em Paris', 267, 6, 4),
     ('The Bard’s Song', 244, 7, 5),
     ('Feeling Good', 100, 8, 6);
+
 INSERT INTO
     `SpotifyClone`.`history` (`reproduction_date`, `id_song`, `id_user`)
 VALUES
